@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <h2>PEDIDOS PENDIENTES REPARTIDOR</h2>
+
+    <% pedidos.forEach(function(lpedidos){ %>
+    <h4>Cliente: <%= lpedidos.cliente %> -- Menu: <%= lpedidos.menu %></h4>
+    <% }) %>
+    <form action="/Entregado" method="POST">
+        <button>Entregado</button>
+      </form>
+  </body>
+  
+</html>

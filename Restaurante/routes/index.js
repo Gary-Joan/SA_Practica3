@@ -1,14 +1,15 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
+const axios = require("axios");
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+router.get("/", function (req, res, next) {
+  res.render("index", { title: "Express" });
 });
-router.post("/submit", (req, res) => {
-    const username = req.body;
-    console.log(username);
 
-    res.end();
-  });
+
+
+
+
+
 module.exports = router;

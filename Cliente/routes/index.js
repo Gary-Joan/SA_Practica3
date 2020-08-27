@@ -1,58 +1,54 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
 const axios = require("axios");
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+router.get("/", function (req, res, next) {
+  res.render("index", { title: "Express" });
 });
+let menu='';
 router.post("/submit", (req, res) => {
-    const username = req.body.cliente;
-    console.log(JSON.stringify(username));
-    llamar('http://localhost:3010/submit',username)
-    res.redirect('/');
-    res.end();
-    
-  });
+  const username = { cliente: req.body.cliente, menu: req.body.menu };
+  llamar("http://localhost:3010/submit", JSON.stringify(username));
+  menu= req.body.menu;
+  res.redirect("/");
+  res.end();
+});
 
-  router.post('/StatusPedidoRestaurante', function(req, res, next) {
-    console.log('El estado de su pedidos en el restaurante es: ')
-  });
-  router.post('/StatusPedidoRepartidor', function(req, res, next) {
-    console.log('El estado de su pedido en el repartidor es: ')
-  });
+router.get("/StatusR", async (req, res, next) => {
+  let res1 = await axios
+    .get("http://localhost:3010/StatusPedidoRestaurante")
+    .catch(function (error) {
+      console.log(error);
+    });
 
+  let data = res1.data;
+  res.render("RespuestaR", { respuesta: data });
+  res.end();
+});
 
-
-  async function llamar(ui,p)
-  {
-      var resul={
-          estado:"error",
-          mensaje:"no se a enviado"
-      }        
-      try
-      {
-         var re= await  axios.post(ui,p)
-         .then(function(response){
-             console.log("todo correcto")
-             resul=response.data
-             return response.data;        
-         })
-         .catch(function(error){
-             console.log("error no encuentra el uri")
-             resul.estado="error"
-             resul.mensaje="no encontro el uri o no responde"
-
-         })
-         .then(function(){
-             console.log("siempre ejecutando")
-             
-         });
-      }
-      catch(error)
-      {
-          console.log(error)
-      }
-      
+async function llamar(ui, p) {
+  var resul = {
+    estado: "error",
+    mensaje: "no se a enviado",
   };
+  try {
+    var re = await axios
+      .post(ui, p, { headers: { "content-type": "application/json" } })
+      .then(function (response) {
+        console.log("todo correcto");
+        console.log("mensaje " + p);
+        resul = response.data;
+        return response.data;
+      })
+      .catch(function (error) {
+        console.log("error no encuentra el uri");
+      })
+      .then(function () {
+        console.log("siempre ejecutando");
+      });
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 module.exports = router;
