@@ -23,6 +23,6 @@ Esta instalara las librerias necesarios para ejecutar los servicio
 <br>
 Estos servicios se ejecutar en las siguientes urls.
 <br>
-cliente: (http://localhost:3000) 
-Restaurante: (http://localhost:3010) 
+cliente: (http://localhost:3000)<br> 
+Restaurante: (http://localhost:3010)<br> 
 Repartidor:(http://localhost:3005)
