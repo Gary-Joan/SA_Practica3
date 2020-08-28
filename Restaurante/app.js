@@ -16,47 +16,45 @@ app.set("views", path.join(__dirname, "views"));
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname + "/views/index.html"));
 });
-
+//manejadores de pedido simples arrays
 let listaPedidos = new Array();
-let listaPedidosRepartidor=new Array();
+let listaPedidosRepartidor = new Array();
 app.post("/submit", function (request, response) {
   listaPedidos.push(request.body);
 });
-
+/*Aqui se pueden ver los pedido pendientes del repartidor*/
 app.get("/VerPedidos", function (req, res) {
   res.render("Pedidos", { pedidos: listaPedidos });
 });
 app.get("/StatusPedidoRestaurante", function (req, res, next) {
-  if (listaPedidos.length>0) {
-    console.log('Su pedido esta aun en Restaurante!!')
-    res.send('Su pedido esta aun en Restaurante!!')
-
-  }else if( listaPedidosRepartidor.length>0){
-    console.log('Su pedido esta Siendo llevado por el repartidor!!')
-    res.send('Su pedido esta Siendo llevado por el repartidor!!')
-  }else{
-    res.send('Su pedido ha sido entregado..')
+  if (listaPedidos.length > 0) {
+    console.log("Su pedido esta aun en Restaurante!!");
+    res.send("Su pedido esta aun en Restaurante!!");
+  } else if (listaPedidosRepartidor.length > 0) {
+    console.log("Su pedido esta Siendo llevado por el repartidor!!");
+    res.send("Su pedido esta Siendo llevado por el repartidor!!");
+  } else {
+    res.send("Su pedido ha sido entregado..");
   }
- 
-
-
 });
+//Es para quitar el pedido de la lista de pendientes
 app.post("/quitarpedido", function (req, res) {
   listaPedidosRepartidor.shift();
 });
+//Enviar los pedidos dentro del restaurante hacia el repartidor
 app.post("/EnviarPedidos", function (request, response) {
-  if (listaPedidos.length>0){
-  var menu=listaPedidos.shift();
-  listaPedidosRepartidor.push(menu);
-  llamar("http://localhost:3005/RecibirPedidos", JSON.stringify(menu));
-  response.redirect("/");
-  response.end();
-  }else{
-    response.send('No hay pedidos!!');
+  if (listaPedidos.length > 0) {
+    var menu = listaPedidos.shift();
+    listaPedidosRepartidor.push(menu);
+    llamar("http://localhost:3005/RecibirPedidos", JSON.stringify(menu));
+    response.redirect("/");
+    response.end();
+  } else {
+    response.send("No hay pedidos!!");
   }
   response.end();
 });
-
+//misma funcion para poder hacer enviar hacia una url espcifica
 async function llamar(ui, p) {
   var resul = {
     estado: "error",
@@ -81,18 +79,6 @@ async function llamar(ui, p) {
     console.log(error);
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 app.use(
   express.urlencoded({

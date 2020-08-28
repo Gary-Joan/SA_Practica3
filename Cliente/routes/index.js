@@ -5,15 +5,16 @@ const axios = require("axios");
 router.get("/", function (req, res, next) {
   res.render("index", { title: "Express" });
 });
-let menu='';
+let menu = "";
+/* POST menu info */
 router.post("/submit", (req, res) => {
   const username = { cliente: req.body.cliente, menu: req.body.menu };
   llamar("http://localhost:3010/submit", JSON.stringify(username));
-  menu= req.body.menu;
+  menu = req.body.menu;
   res.redirect("/");
   res.end();
 });
-
+/* GET Status of the Order. */
 router.get("/StatusR", async (req, res, next) => {
   let res1 = await axios
     .get("http://localhost:3010/StatusPedidoRestaurante")
@@ -25,7 +26,7 @@ router.get("/StatusR", async (req, res, next) => {
   res.render("RespuestaR", { respuesta: data });
   res.end();
 });
-
+/* Funcion para poder hacer el POST a una url */
 async function llamar(ui, p) {
   var resul = {
     estado: "error",

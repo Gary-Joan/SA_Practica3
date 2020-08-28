@@ -13,7 +13,6 @@ app.use(bodyparser.json());
 app.use(express.static(path.join(__dirname, "public")));
 app.set("views", path.join(__dirname, "views"));
 
-
 app.use(express.static(path.join(__dirname, "public")));
 app.set("views", path.join(__dirname, "views"));
 
@@ -25,25 +24,27 @@ app.use(
     extended: true,
   })
 );
-app.use('/', indexRouter);
+app.use("/", indexRouter);
 let listapedido = new Array();
+/* REsive la lista de pedidos desde el restaurante */
 app.post("/RecibirPedidos", function (req, res) {
-  var pedido =req.body;
-  listapedido.push(pedido)
+  var pedido = req.body;
+  listapedido.push(pedido);
 });
+/* Aqui se ven los pedidos pendientes del repartidor */
 app.get("/VerPedido", function (req, res) {
-
   res.render("ListaMenus", { pedidos: listapedido });
 });
-
+/* Mandaun status al restaurante que se entregado el pedido. */
 app.post("/Entregado", (req, res) => {
   listapedido.shift();
-  llamar("http://localhost:3010/quitarpedido", '');
-  res.send('Pedido Entregado!!')
-  
+  llamar("http://localhost:3010/quitarpedido", "");
+  console.log("El pedido fue entregado con exito!!");
+  res.send("Pedido Entregado!!");
+
   res.end();
 });
-
+/* Funcion para hacer los post segun la url mandada. */
 async function llamar(ui, p) {
   var resul = {
     estado: "error",
@@ -68,6 +69,7 @@ async function llamar(ui, p) {
     console.log(error);
   }
 }
+/* Escuchando en el puerte predefinido. */
 app.listen(PORT, () => {
   console.log(`Repartidor escuchando en puerto: ${PORT}`);
 });
