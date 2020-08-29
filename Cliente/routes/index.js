@@ -17,7 +17,7 @@ router.post("/submit", (req, res) => {
 /* GET Status of the Order. */
 router.get("/StatusR", async (req, res, next) => {
   let res1 = await axios
-    .get("http://localhost:3010/StatusPedidoRestaurante")
+    .get("http://localhost:3020")
     .catch(function (error) {
       console.log(error);
     });

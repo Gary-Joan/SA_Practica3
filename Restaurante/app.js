@@ -46,7 +46,7 @@ app.post("/EnviarPedidos", function (request, response) {
   if (listaPedidos.length > 0) {
     var menu = listaPedidos.shift();
     listaPedidosRepartidor.push(menu);
-    llamar("http://localhost:3005/RecibirPedidos", JSON.stringify(menu));
+    llamar("http://localhost:3020", JSON.stringify(menu));
     response.redirect("/");
     response.end();
   } else {
@@ -80,11 +80,6 @@ async function llamar(ui, p) {
   }
 }
 
-app.use(
-  express.urlencoded({
-    extended: true,
-  })
-);
 app.use("/", indexRouter);
 
 app.listen(PORT, () => {

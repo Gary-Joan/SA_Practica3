@@ -4,7 +4,7 @@ const axios = require("axios");
 const path = require("path");
 const bodyparser = require("body-parser");
 const router = express.Router();
-const PORT = 3005;
+const PORT = 3020;
 var indexRouter = require("./routes/index");
 app.engine("html", require("ejs").renderFile);
 app.set("view engine", "html");
@@ -19,31 +19,9 @@ app.set("views", path.join(__dirname, "views"));
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname + "/views/index.html"));
 });
-app.use(
-  express.urlencoded({
-    extended: true,
-  })
-);
-app.use("/", indexRouter);
-let listapedido = new Array();
-/* REsive la lista de pedidos desde el restaurante */
-app.post("/RecibirPedidos", function (req, res) {
-  var pedido = req.body;
-  listapedido.push(pedido);
-});
-/* Aqui se ven los pedidos pendientes del repartidor */
-app.get("/VerPedido", function (req, res) {
-  res.render("ListaMenus", { pedidos: listapedido });
-});
-/* Mandaun status al restaurante que se entregado el pedido. */
-app.post("/Entregado", (req, res) => {
-  listapedido.shift();
-  llamar("http://localhost:3020", "");
-  console.log("El pedido fue entregado con exito!!");
-  res.send("Pedido Entregado!!");
 
-  res.end();
-});
+app.use("/", indexRouter);
+
 /* Funcion para hacer los post segun la url mandada. */
 async function llamar(ui, p) {
   var resul = {
@@ -71,5 +49,5 @@ async function llamar(ui, p) {
 }
 /* Escuchando en el puerte predefinido. */
 app.listen(PORT, () => {
-  console.log(`Repartidor escuchando en puerto: ${PORT}`);
+  console.log(`ESB escuchando en el puerto: ${PORT}`);
 });
