@@ -8,16 +8,23 @@ router.get("/", function (req, res, next) {
 let menu = "";
 /* POST menu info */
 router.post("/submit", (req, res) => {
-  const username = { cliente: req.body.cliente, menu: req.body.menu };
-  llamar("http://localhost:3010/submit", JSON.stringify(username));
+
+  const pedido = { cliente: req.body.cliente, 
+                     menu: req.body.menu,
+                     direccion: req.body.direccion,
+                     origen:'Cliente',
+                     destino:'Restaurante',
+                    estado:'Enviado a Restaurante' };
+  llamar("http://localhost:3020/submit", JSON.stringify(pedido));
   menu = req.body.menu;
   res.redirect("/");
+  
   res.end();
 });
 /* GET Status of the Order. */
-router.get("/StatusR", async (req, res, next) => {
+router.get("/Estado", async (req, res, next) => {
   let res1 = await axios
-    .get("http://localhost:3020")
+    .get("http://localhost:3020/Estado")
     .catch(function (error) {
       console.log(error);
     });

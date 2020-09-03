@@ -20,7 +20,14 @@ app.get("/", (req, res) => {
 let listaPedidos = new Array();
 let listaPedidosRepartidor = new Array();
 app.post("/submit", function (request, response) {
-  listaPedidos.push(request.body);
+  if (request.body != null) {
+    listaPedidos.push(request.body);
+    listaPedidos[0].origen = "Restaurante";
+    listaPedidos[0].destino = "Cliente";
+    llamar("http://localhost:3020/submit", listaPedidos[0]);
+  } else {
+    console.log("error!!");
+  }
 });
 /*Aqui se pueden ver los pedido pendientes del repartidor*/
 app.get("/VerPedidos", function (req, res) {
@@ -46,7 +53,10 @@ app.post("/EnviarPedidos", function (request, response) {
   if (listaPedidos.length > 0) {
     var menu = listaPedidos.shift();
     listaPedidosRepartidor.push(menu);
-    llamar("http://localhost:3020", JSON.stringify(menu));
+    listaPedidosRepartidor[0].origen = "Restaurante";
+    listaPedidosRepartidor[0].destino = "Repartidor";
+    llamar("http://localhost:3020/submit", listaPedidosRepartidor[0]);
+    listaPedidosRepartidor.shift();
     response.redirect("/");
     response.end();
   } else {
@@ -64,16 +74,15 @@ async function llamar(ui, p) {
     var re = await axios
       .post(ui, p, { headers: { "content-type": "application/json" } })
       .then(function (response) {
-        console.log("todo correcto");
-        console.log("mensaje " + p);
+ 
         resul = response.data;
         return response.data;
       })
       .catch(function (error) {
-        console.log("error no encuentra el uri");
+        console.log("");
       })
       .then(function () {
-        console.log("siempre ejecutando");
+        console.log("Escuchando en el puerto: 3020 ");
       });
   } catch (error) {
     console.log(error);
