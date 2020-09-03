@@ -50,6 +50,17 @@ app.post("/submit", function (request, response) {
     console.log(
       "Pedido de cliente " + request.body.cliente + " enviado a Repartidor"
     );
+    llamar("http://localhost:3005/submit", listaMensajes.shift());
+  }
+  else if (
+    request.body.destino == "Cliente" &&
+    request.body.origen == "Repartidor"
+  ) {
+    listaMensajes.push(request.body);
+    listaMensajes[0].estado = "Su pedido fue entregado";
+    console.log(
+      "Pedido de cliente " + request.body.cliente + " enviado con exito"
+    );
   } else {
     console.log("Error!");
   }
