@@ -22,7 +22,9 @@ app.get("/", (req, res) => {
 
 //manejadores de pedido simples arrays
 let listaMensajes = new Array();
+//Esta ruta va ser la encargada de tomar el mensaje que vengo de los servidores y redirigirlos a donde pertenezcan
 app.post("/submit", function (request, response) {
+  //usando un metodo if para ver dentro del mensaje cual es el destino y cual es origen para saber hacia donde va y de donde viene
   if (request.body.destino == "Restaurante") {
     listaMensajes.push(request.body);
     listaMensajes[0].estado = "Pedido Ingresado en Restaurante";
@@ -65,7 +67,7 @@ app.post("/submit", function (request, response) {
     console.log("Error!");
   }
 });
-
+//esta ruta devuelve el estado segund el mensaje actual que tengo en el sistema
 app.get("/Estado", function (req, res, next) {
   if (listaMensajes.length > 0) {
     console.log("Estado del pedido: " + listaMensajes[0].estado);
