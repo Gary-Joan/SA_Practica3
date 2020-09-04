@@ -1,4 +1,4 @@
-## SA_Practica3
+## SA PRACTICA 3
 
 ## COREOGRAFIA DE SERVICIOS
 
@@ -28,3 +28,41 @@ cliente: (http://localhost:3000)
 Restaurante: (http://localhost:3010)
 <br> 
 Repartidor:(http://localhost:3005)
+
+
+## SA PRACTICA 4
+
+## ORQUESTACION DE SERVICIOS
+
+La practica 4 consta de 4 carpetas:
+<br>
+-Cliente el cual contiene el servicio del menu del cliente.
+<br>
+-Restaurante el cual contiene el servicio para recivir y enviar informacion sobre los menus
+<br>
+-Repartidor el cual contiene el servicio de entregar del repartidor
+<br>
+-ESB el cual contiene el manejador de mensaje para los servicios anteriores
+
+<br>
+Cada uno de las carpetas contiene informacion de como ejecutar dicha carpeta
+
+<br>
+Para la ejecucio optima de estos servicio primero se ejecuta el comando
+<br>
+### `npm build`
+<br>
+Esta instalara las librerias necesarios para ejecutar los servicio
+
+<br>
+Estos servicios se ejecutar en las siguientes urls.
+<br>
+cliente: (http://localhost:3000)
+<br> 
+Restaurante: (http://localhost:3010)
+<br> 
+Repartidor:(http://localhost:3005)
+<br> 
+ESB:(http://localhost:3020)
+
+
